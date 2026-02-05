@@ -52,7 +52,15 @@ jobs:
 
       - name: Get the date on Windows
         if: inputs.os == 'windows-latest'
-        run: echo "date=$(Get-Date -Format 'yyyyMMdd')" | Out-File -Append -FilePath $env:GITHUB_ENV -Encoding utf8
+        run: |
+          $date = Get-Date -Format 'yyyyMMdd'
+          $versionContent = Get-Content version.inc -Raw
+          if ($versionContent -match 'set\(SLIC3R_VERSION "(.*?)"\)') {
+              $ver = $matches[1]
+          }
+          $ver = "V$ver"
+          echo "ver=$ver" | Out-File -Append -FilePath $env:GITHUB_ENV -Encoding utf8
+          echo "date=$date" | Out-File -Append -FilePath $env:GITHUB_ENV -Encoding utf8
         shell: pwsh
 
 
@@ -81,6 +89,16 @@ jobs:
         with:
           name: BambuStudio_dep_win64_${{ env.date }}
           path: ${{ github.workspace }}/deps/build/BambuStudio_dep*.zip
+
+      - name: Upload deps to release
+        if: inputs.os == 'windows-latest'
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          artifacts: "${{ github.workspace }}/deps/build/BambuStudio_dep*.zip"
+          tag: ${{ env.ver }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
 
           
       - name: Fix python install error on mac
