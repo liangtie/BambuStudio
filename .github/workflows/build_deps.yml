@@ -74,6 +74,14 @@ jobs:
         working-directory: ${{ github.workspace }}
         run: Compress-Archive -Path "${{ github.workspace }}\deps\build\BambuStudio_dep\*" -DestinationPath "${{ github.workspace }}\deps\build\BambuStudio_dep_win64_${{ env.date }}_vs2022.zip"
         shell: pwsh
+
+      - name: Upload Windows artifacts
+        if: inputs.os == 'windows-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: BambuStudio_dep_win64_${{ env.date }}
+          path: ${{ github.workspace }}/deps/build/BambuStudio_dep*.zip
+
           
       - name: Fix python install error on mac
         if: inputs.os == 'macos-13'
@@ -160,12 +168,7 @@ jobs:
         working-directory: ${{ github.workspace }}
         run: rm -rf ${{ github.workspace }}/deps/build/BambuStudio_dep_mac_${{ inputs.arch }}*.tar.gz
 
-      - name: Upload Windows artifacts
-        if: inputs.os == 'windows-latest'
-        uses: actions/upload-artifact@v4
-        with:
-          name: BambuStudio_dep_win64_${{ env.date }}
-          path: ${{ github.workspace }}/deps/build/BambuStudio_dep*.zip
+
 
       - name: Upload Ubuntu artifacts
         if: ${{ ! env.ACT && (inputs.os == 'ubuntu-22.04' || inputs.os == 'ubuntu-24.04') }}
