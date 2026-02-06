@@ -125,7 +125,24 @@ if (NOT WIN32 AND NOT APPLE)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/platform/unix/BuildLinuxImage.sh.in ${CMAKE_CURRENT_BINARY_DIR}/BuildLinuxImage.sh @ONLY)
 endif ()
 
-target_link_libraries(BambuStudio libslic3r cereal)
+# MuJoCo
+find_library(MUJOCO_LIB
+    NAMES mujoco
+    PATHS "${CMAKE_PREFIX_PATH}"
+    PATH_SUFFIXES lib
+    NO_DEFAULT_PATH
+)
+
+if(NOT MUJOCO_LIB)
+    message(FATAL_ERROR "mujoco.lib not found under CMAKE_PREFIX_PATH")
+endif()
+
+message(STATUS "Found MuJoCo lib: ${MUJOCO_LIB}")
+
+
+target_link_libraries(BambuStudio libslic3r cereal ${MUJOCO_LIB})
+
+
 if (APPLE)
 #    add_compile_options(-stdlib=libc++)
 #    add_definitions(-DBOOST_THREAD_DONT_USE_CHRONO -DBOOST_NO_CXX11_RVALUE_REFERENCES -DBOOST_THREAD_USES_MOVE)

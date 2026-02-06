@@ -1,5 +1,5 @@
 ﻿#include "RobogsMujoco.hpp"
-#include "mujoco/RobogsMuJoCoCanvas.hpp" 
+#include "RobogsMuJoCoCanvas.hpp" 
 
 #include <wx/uri.h>
 #include <wx/stdpaths.h>
