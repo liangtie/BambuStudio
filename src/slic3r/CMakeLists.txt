@@ -503,6 +503,18 @@ set(SLIC3R_GUI_SOURCES
     GUI/AmsMappingPopup.cpp
     GUI/ReleaseNote.hpp
     GUI/ReleaseNote.cpp
+
+    GUI/RobogsMujoco.cpp
+    GUI/RobogsMuJoCoCanvas.cpp
+    GUI/RobogsPanel.cpp
+    GUI/RobogsSupersplat.cpp
+
+    GUI/RobogsMujoco.hpp
+    GUI/RobogsMuJoCoCanvas.hpp
+    GUI/RobogsPanel.hpp
+    GUI/RobogsSupersplat.hpp    
+
+
     GUI/HelioReleaseNote.hpp
     GUI/HelioReleaseNote.cpp
     GUI/HelioHistoryDialog.hpp
