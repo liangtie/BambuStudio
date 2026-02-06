@@ -158,6 +158,15 @@ jobs:
           name: BambuStudio_Windows_${{ env.ver }}_portable
           path: ${{ github.workspace }}/BambuStudio_Windows_${{ env.ver }}_portable.zip
 
+      - name: Upload Win zip to release
+        if: inputs.os == 'windows-latest'
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{ github.workspace }}/BambuStudio_Windows_${{ env.ver }}_portable.zip
+          tag: ${{ env.ver }}
+          overwrite: true
+
 
   # Ubuntu
       - name: Install dependencies from BuildLinux.sh
